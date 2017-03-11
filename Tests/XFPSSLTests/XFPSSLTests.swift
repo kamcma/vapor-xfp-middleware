@@ -1,14 +1,14 @@
 import XCTest
-@testable import EnforceXFPSSLTests
+@testable import XFPSSL
 
-class EnforceXFPSSLTests: XCTestCase {
+class XFPSSLTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        XCTAssertEqual(EnforceXFPSSL().text, "Hello, World!")
+        XCTAssertEqual(XFPSSL().text, "Hello, World!")
     }
 
-    static var allTests: [(String, (EnforceXFPSSLTests) -> () throws -> Void)] {
+    static var allTests: [(String, (XFPSSLTests) -> () throws -> Void)] {
         return [
             ("testExample", testExample)
         ]

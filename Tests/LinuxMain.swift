@@ -1,6 +1,6 @@
 import XCTest
-@testable import EnforceXFPSSLTests
+@testable import XFPSSLTests
 
 XCTMain([
-     testCase(vapor_heroku_piggyback_sslTests.allTests)
+     testCase(XFPSSLTests.allTests)
 ])

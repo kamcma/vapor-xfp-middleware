@@ -1,10 +1,13 @@
 import HTTP
 import URI
 
-public struct EnforceHerokuPiggybackSSL: Middleware {
-    public init() { }
+public struct EnforceXFPSSL: Middleware {
+    let enabled: Bool
+    public init(enabled: Bool = true) {
+        self.enable = enabled
+    }
     public func respond(to request: Request, chainingTo next: Responder) throws -> Response {
-        if request.headers["X-Forwarded-Proto"] == "https" {
+        guard enabled, request.headers["X-Forwarded-Proto"] == "http" else {
             return try next.respond(to: request)
         }
         request.uri.scheme = "https"

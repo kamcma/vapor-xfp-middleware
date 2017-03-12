@@ -1,6 +1,6 @@
 import XCTest
-@testable import XFPSSLTests
+@testable import XFPMiddlewareTests
 
 XCTMain([
-     testCase(XFPSSLTests.allTests)
+     testCase(XFPMiddlewareTests.allTests)
 ])

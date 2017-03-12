@@ -1,7 +1,7 @@
 import HTTP
 import URI
 
-public struct XFPSSL: Middleware {
+public struct XFPMiddleware: Middleware {
     let enabled: Bool
     public init(enabled: Bool = true) {
         self.enable = enabled

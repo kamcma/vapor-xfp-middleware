@@ -1,14 +1,14 @@
 import XCTest
-@testable import XFPSSL
+@testable import XFPMiddleware
 
-class XFPSSLTests: XCTestCase {
+class XFPMiddlwareTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        XCTAssertEqual(XFPSSL().text, "Hello, World!")
+        XCTAssertEqual(XFPMiddleware().text, "Hello, World!")
     }
 
-    static var allTests: [(String, (XFPSSLTests) -> () throws -> Void)] {
+    static var allTests: [(String, (XFPMiddlewareTests) -> () throws -> Void)] {
         return [
             ("testExample", testExample)
         ]

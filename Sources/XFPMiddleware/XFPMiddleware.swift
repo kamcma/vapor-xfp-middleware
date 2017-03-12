@@ -4,7 +4,7 @@ import URI
 public struct XFPMiddleware: Middleware {
     let enabled: Bool
     public init(enabled: Bool = true) {
-        self.enable = enabled
+        self.enabled = enabled
     }
     public func respond(to request: Request, chainingTo next: Responder) throws -> Response {
         guard enabled, request.headers["X-Forwarded-Proto"] == "http" else {

@@ -2,39 +2,39 @@ import XCTest
 import Vapor
 import HTTP
 import XFPMiddleware
-import Testing
 
 class XFPMiddlewareTests: XCTestCase {
-    static var allTests = [
-        ("testXFPMiddleware", testXFPMiddleware)
+    static let allTests = [
+        ("testHTTP", testHTTP),
+        ("testHTTPS", testHTTPS)
     ]
-
+    
+    var app: Application!
+    
     override func setUp() {
-        Testing.onFail = XCTFail
+        var services = Services.default()
+        var middlewares = MiddlewareConfig()
+        middlewares.use(XFPMiddleware())
+        services.register(middlewares)
+        
+        let router = EngineRouter.default()
+        router.get { req -> HTTPStatus in
+            return .ok
+        }
+        services.register(router, as: Router.self)
+        
+        app = try! Application(services: services)
     }
 
-    func testXFPMiddleware() throws {
-        let drop = try Droplet()
-
-        let protected = drop.grouped(XFPMiddleware.init())
-
-        protected.get { _ in
-            return Response(status: .ok)
-        }
-
-        let httpReq = Request(method: .get, uri: "/")
-        httpReq.uri.scheme = "http"
-        httpReq.headers["X-Forwarded-Proto"] = "http"
-
-        let httpsReq = Request(method: .get, uri: "/")
-        httpsReq.uri.scheme = "http"
-        httpsReq.headers["X-Forwarded-Proto"] = "https"
-
-        try drop.testResponse(to: httpReq)
-            .assertStatus(is: .seeOther)
-
-        try drop.testResponse(to: httpsReq)
-            .assertStatus(is: .ok)
-
+    func testHTTP() throws {
+        let request = Request(http: .init(method: .GET, url: "/", headers: .init([("X-Forwarded-Proto", "http")])), using: app)
+        let response = try app.make(Responder.self).respond(to: request).wait()
+        XCTAssert(response.http.status == .temporaryRedirect)
+    }
+    
+    func testHTTPS() throws {
+        let request = Request(http: .init(method: .GET, url: "/", headers: .init([("X-Forwarded-Proto", "https")])), using: app)
+        let response = try app.make(Responder.self).respond(to: request).wait()
+        XCTAssert(response.http.status == .ok)
     }
 }

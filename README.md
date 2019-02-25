@@ -6,11 +6,13 @@ For example, if you are deploying a Vapor app to a Heroku free dyno, you might w
 
 # Usage
 
-To use Vapor X-Forwarded-Proto Middleware, add the middleware to your `Config` and your `droplet.json`:
+To use Vapor X-Forwarded-Proto Middleware, add the middleware to your `services`:
 
 ```swift
-let config = Config()
-let xfpMiddleware = XFPMiddleware()
-config.addConfigurable(middleware: xfpMiddleware, name: "xfp-middleware")
-let drop = try Droplet(config)
+let services = Services.default()
+let middlewares = MiddlewareConfig()
+middlewares.use(XFPMiddleware())
+services.register(middlewares)
+
+let app = Application(services: services)
 ```
